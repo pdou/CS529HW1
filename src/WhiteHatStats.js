@@ -51,9 +51,12 @@ export default function WhiteHatStats(props){
         let yScale = d3.scaleLinear()
             //paul
             //.domain(d3.extent(plotData,d=>d.count))
-            .domain(d3.extent(plotData,d=>d.count*100000/d.population))
+
+            //.domain(d3.extent(plotData,d=>d.count*100000/d.population))
+            .domain([0,d3.extent(plotData,d=>d.count*100000/d.population)[1]])
+
             //.range([height-margin-radius,margin+radius]);
-            .range([height-margin-13,margin]);//height - margin.bottom, margin.top
+            .range([height-margin,margin]);//height - margin.bottom, margin.top
             //.range([margin,height - margin]);//height - margin.bottom, margin.top
 
         let yScale2 = d3.scaleLinear()
@@ -165,7 +168,8 @@ export default function WhiteHatStats(props){
             // .attr("x", width)
             // .attr("y", height + margin.top + 20)
             .attr('x',width/2)
-            .attr('y',labelSize+295)
+            //.attr('y',labelSize+290)
+            .attr('y',height-5)
             .attr('text-anchor','middle')
             .text("states (ordered by % male victims)")
             .attr('font-weight','bold')
@@ -175,7 +179,7 @@ export default function WhiteHatStats(props){
             .attr("text-anchor", "middle")
             //.attr("transform", "rotate(-90)")
             .attr('x',97)
-            .attr('y',labelSize+45)
+            .attr('y',labelSize+40)
             .text('gun deaths per 100K')
             .attr('font-weight','bold')
         

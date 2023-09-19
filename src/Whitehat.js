@@ -12,7 +12,8 @@ export default function Whitehat(props){
     var isZoomed = false;
 
     //TODO: change the line below to change the size of the white-hat maximum bubble size
-    const maxRadius = width/500;
+    //const maxRadius = width/500;
+    const maxArea = width/50;
 
     //albers usa projection puts alaska in the corner
     //this automatically convert latitude and longitude to coordinates on the svg canvas
@@ -129,7 +130,8 @@ export default function Whitehat(props){
                 .domain([0,cityMax])
                 //.range([0,maxRadius]);
                 //paul
-                .range([0,(Math.PI*maxRadius*maxRadius)]);
+                //.range([0,(Math.PI*maxRadius*maxRadius)]);
+                .range([0,(maxArea)]);
 
             mapGroup.selectAll('.city').remove();
 
@@ -145,11 +147,11 @@ export default function Whitehat(props){
                 .attr('opacity',.5)
                 //paul
                 .on('mouseover',(e,d)=>{
-                    console.log('ok')
-                    console.log(d.city)
+                    //console.log('ok')
+                    //console.log(d.city)
                     //
-                    //let cityC = cleanString(d.city);//d.properties.NAME
-                    let cityC = d.city
+                    let cityC = cleanString(d.city);//d.properties.NAME
+                    //let cityC = d.city
                     //this updates the brushed state
                     if(props.brushedState !== cityC){
                         props.setBrushedState(cityC);
@@ -177,12 +179,12 @@ export default function Whitehat(props){
                 let legendX = bounds.x + 10 + bounds.width;
                 const barWidth = Math.min((width - legendX)/3,40);
                 const fontHeight = Math.min(barWidth/2,16);
-                let legendY = bounds.y + 2*fontHeight + 10;
+                let legendY = bounds.y + 2*fontHeight + 60;
                 
                 let colorLData = [];
                 //OPTIONAL: EDIT THE VALUES IN THE ARRAY TO CHANGE THE NUMBER OF ITEMS IN THE COLOR LEGEND
                 //for(let ratio of [0.1,.2,.3,.4,.5,.6,.7,.8,.9,.99]){
-                for(let ratio of [.15,.3,.45,.6, .75]){
+                for(let ratio of [.05,.1,.15,.2,.25,.3,.35, .5]){
                 //paul
                 //for(let ratio of [.05,.1,.15,.2,.25,.3,.35,.4,.5,1.0]){
                     // console.log('min')
@@ -199,7 +201,7 @@ export default function Whitehat(props){
                         'value': val,
                         'color':color,
                     }
-                    entry.text = '>= ' + (entry.value).toFixed(0);
+                    entry.text = '>= ' + (entry.value).toFixed(1);
             
                     colorLData.push(entry);
                     legendY += barHeight;
@@ -218,8 +220,8 @@ export default function Whitehat(props){
                 svg.selectAll('.legendText').remove();
                 const legendTitle = {
                     'x': legendX - barWidth,
-                    'y': bounds.y,
-                    'text': 'Gun Deaths per 100K' 
+                    'y': bounds.y + 60,
+                    'text': 'Gun Deaths/100K' 
                 }
                 svg.selectAll('.legendText')
                     .data([legendTitle].concat(colorLData)).enter()
