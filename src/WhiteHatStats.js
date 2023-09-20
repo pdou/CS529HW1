@@ -107,7 +107,8 @@ export default function WhiteHatStats(props){
             //.attr('width',d=>xScale(d.easeOfDrawing))
             .attr('width',5)
             //.attr('fill',d=> colorScale(d.genderRatio))
-            .attr('fill','darkorange')
+            .attr('fill','none')
+            .attr('stroke', 'Black')
             //.attr('r',10)
             .on('mouseover',(e,d)=>{
                 let string = d.name + '</br>'
@@ -143,7 +144,7 @@ export default function WhiteHatStats(props){
             .attr('text-anchor','middle')
             .attr('font-size',labelSize)
             .attr('font-weight','bold')
-            .text('Gender vs Gun Deaths');
+            .text('Gender vs Gun Deaths (2013)');
 
         //change the disclaimer here
         // svg.append('text')
