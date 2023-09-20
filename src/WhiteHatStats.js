@@ -108,11 +108,11 @@ export default function WhiteHatStats(props){
             .attr('width',5)
             //.attr('fill',d=> colorScale(d.genderRatio))
             .attr('fill','none')
-            .attr('stroke', 'Black')
+            .attr('stroke', 'darkorange')
             //.attr('r',10)
             .on('mouseover',(e,d)=>{
                 let string = d.name + '</br>'
-                    + 'Gun Deaths: ' + d.count + '</br>'
+                    + '2013 Gun Deaths: ' + d.count + '</br>'
                     //+ 'Difficulty Drawing: ' + d.easeOfDrawing;
                     + 'Gun Deaths/100K: ' + (d.count*100000/d.population).toFixed(2) + '</br>'
                     + '% Male Victims: ' + (d.genderRatio*100).toFixed(2);

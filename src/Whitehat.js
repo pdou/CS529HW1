@@ -42,10 +42,13 @@ export default function Whitehat(props){
             //paul
             const getEncodedFeature = d => (d.count/d.population)*100000
             const getEncodedFeature22 = d => d.count
+            const getEncodedFeature33 = d => d.male_count*100/d.count
+
 
             //this section of code sets up the colormap
             const stateCounts = Object.values(stateData).map(getEncodedFeature);
             const stateCounts22 = Object.values(stateData).map(getEncodedFeature22);
+            const stateCounts33 = Object.values(stateData).map(getEncodedFeature33);
 
             //get color extends for the color legend
             const [stateMin,stateMax] = d3.extent(stateCounts);
@@ -80,6 +83,7 @@ export default function Whitehat(props){
             }
 
             //this set of functions extracts the features given the state name from the geojson
+            //for gross count
             function getCount22(name22){
                 //map uses full name, dataset uses abreviations
                 name22 = cleanString(name22);
@@ -93,6 +97,23 @@ export default function Whitehat(props){
                 let count22 = getCount(name22);
                 let val22 = stateScale(count22);
                 return val22
+            }
+
+            //this set of functions extracts the features given the state name from the geojson
+            //for gross count
+            function getCount33(name33){
+                //map uses full name, dataset uses abreviations
+                name33 = cleanString(name33);
+                let entry33 = stateData.filter(d=>d.state===name33);
+                if(entry33 === undefined | entry33.length < 1){
+                    return 0
+                }
+                return getEncodedFeature33(entry33[0]);
+            }
+            function getStateVal33(name33){
+                let count33 = getCount(name33);
+                let val33 = stateScale(count33);
+                return val33
             }
 
             function getStateColor(d){
@@ -126,10 +147,13 @@ export default function Whitehat(props){
                     let sname = d.properties.NAME;
                     let count = getCount(sname);
                     let count22 = getCount22(sname);
+                    let count33 = getCount33(sname);
+
                     let text = sname + '</br>' 
                     //paul
-                    + 'Gun Deaths: ' + count22.toFixed() + '</br>'
-                        + 'Gun Deaths/100K: ' + count.toFixed(2);
+                    + '2013 Gun Deaths: ' + count22.toFixed() + '</br>'
+                        + 'Gun Deaths/100K: ' + count.toFixed(2) + '</br>' 
+                        + '% Male Victims: ' + count33.toFixed(2);
                         
                     tTip.html(text);
                 }).on('mousemove',(e)=>{
@@ -180,7 +204,7 @@ export default function Whitehat(props){
                     //let countC = getCount(cityC);
                     let textC = cityC + '</br>'
                     //paul
-                        + 'Gun Deaths: ' + d.count;
+                        + '2013 Gun Deaths: ' + d.count;
                     tTip.html(textC);
                 }).on('mousemove',(e)=>{
                     //see app.js for the helper function that makes this easier
@@ -241,7 +265,7 @@ export default function Whitehat(props){
                 const legendTitle = {
                     'x': legendX - barWidth,
                     'y': bounds.y + 60,
-                    'text': 'Gun Deaths/100K (2013)' 
+                    'text': 'Gun Deaths/100K' 
                 }
                 svg.selectAll('.legendText')
                     .data([legendTitle].concat(colorLData)).enter()

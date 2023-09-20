@@ -1,0 +1,18 @@
+Whitehat improvements
+
+The first map changes I made were to the color and legend. I used d3.interpolateBlues to remove red/green colorblindness issues, and this also removes the diverging color scale, which was unnecessary since values don’t diverge/transition from a meaningful median. For the color legend, I re-numbered/removed some upper segments since few states were that high, and I spaced down the legend and the legend title, which were getting cut off even in 100% browser view. I also added “>=” to indicate the colors/buckets are derived from a continuous quantity. Also the legend title now reflects changes I made to normalize the state values against state population, and per 100,000 people. This simple calculation is also now reflected in the state tooltip. To maintain the original raw death figure as well for state level (and also the gender ratio), I copied/edited several of the helper functions that calculate this. For the city areas, I created new value for max area, and linear scaled max (D:highest city deaths) against this max (R:maxArea) instead of maxRadius or (pi)(maxRadius^2). Then I added the tooltip showing deaths in the city. No special functions were needed unlike state data, the data was directly accessible. Finally, I added a year for this data to all tooltips. This implementation can be considered “white hat” primarily because its colors are now proportional to population, because it’s colorblind-friendly, and because the reader now knows the year and city data. (The city area scale correction is good, but didn’t make much perceptual difference.)
+
+
+
+
+WhiteHatStats improvements
+
+For this chart, of course first I removed the arbitrary and uninformative “difficulty drawing” scale, regression line, and “asking questions” statement. Instead I include a bar graph of states and death rate, but I order them by male gender ratio, instead of arbitrarily by alphabet. This clearly shows that the states with highest death rates have even higher male victim rates than the reader may have realized, centering around 85% male or possibly even higher. I did a straight (none) fill so as not to over-encode the information: states are categorical, and the x-axis has an ordering of the gender effect. It doesn’t need a fill color scale. I chose orange stroke so as not to choose genders, nor to suggest any interaction with the above map. I chose none fill to make it a little easier to check the colliding/occluding bars for tooltip. It’s a little harder to select the stroke, but that info is ultimately searchable in the map as well. I chose to use male % instead of female because a growing effect left-to-right is the relevant information being conveyed here. I included the same tooltip information as the map for consistency. Finally for some simple cleanup, I added axis labels, and year+cleanup of the title. I explain the gender ordering in the x-axis label. This implementation can be considered “white hat” primarily because I removed the nonsense information, and more clearly showed the gender has a skewed distribution, without having to make any strict quantitativeXquantitative claims. The redundant tooltip means the user should have no trouble finding the information across charts.
+
+Sources:
+
+State map: https://eric.clst.org/tech/usgeojson/
+Original state population: US Census 
+https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-total.html
+Original Slate gun violence dataset:
+https://www.slate.com/articles/news_and_politics/crime/2012/12/gun_death_tally_every_american_gun_death_since_newtown_sandy_hook_shooting.html  
